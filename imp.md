@@ -16,6 +16,12 @@
 - All containers in a pod would have the same IP.
 - Pod IP would be a separate IP than node.
 - It is responsibility of admins to make sure IPs of all pods are different in a cluster, no matter the node.
+- nodePort, targetPort, port are from the viewpoint of the service.
+- To have services in differnet namespaces, create ingresses in different namespaces, if you create a path which is same, then you get the error, do the lab on udemy on ingress1.
+- What is the rewrite-target option?
+- Ingress controller requires configmap, it's own namespace, service account, role, clusterrole, role-binding, cluster-role binding, service and finally the deployment with proper image.
+- Ingress resource needs to be in the namespace where the app-pods are there.
+
 
 ## Example configuration
 ```
@@ -41,3 +47,6 @@ Also ports is an array.
 
 
 ### LoadBalancer (Supported Cloud Providers)
+
+## Namespaces
+- set namespace kubectl config set-context --current --namespace=<insert-namespace-name-here>
