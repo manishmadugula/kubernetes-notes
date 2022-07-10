@@ -12,3 +12,8 @@
 ## Create a hello world deployment and expose a service
 - ```kubectl create deployment hello-minikube --image=k8s.gcr.io/echoserver:1.10```
 - ```kubectl expose deployment hello-minikube --type=NodePort --port=8080```
+
+
+## Ubuntu
+- sudo usermod -aG docker $USER && newgrp docker
+- minikube start --driver=docker
