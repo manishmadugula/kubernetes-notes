@@ -50,3 +50,31 @@ Also ports is an array.
 
 ## Namespaces
 - set namespace kubectl config set-context --current --namespace=<insert-namespace-name-here>
+- Avoid creating namespaces with the prefix kube-, since it is reserved for Kubernetes system namespaces.
+### Items not in any namespace
+``` kubectl api-resources --namespaced=false```
+- nodes
+- pv
+- clusterrole
+- clusterrolebinding
+- storageclasses
+
+## Pods
+
+### InitContainers
+- If you specify multiple init containers for a Pod, kubelet runs each init container sequentially. Each init container must succeed before the next can run. When all of the init containers have run to completion, kubelet initializes the application containers for the Pod and runs them as usual.
+#### Get logs of initcontainer
+```k logs pod -c container_name```
+
+### Labels and Selectors
+Get pods with label
+```k get pods -l env=dev```
+```k get pod -l env=prod,bu=finance,tier=frontend```
+
+## Deployments
+### Rollout
+```k rollout status deployment/deployment_name```
+```k rollout history deployment/deployment_name```
+```k rollout undo deployment/deployment_name```
+```kubectl rollout undo deployment/frontend --to-revision=2         # Rollback to a specific revision```
+- On undo, the older revision to which you have undoed to will be edit in history with incremented verision.

@@ -25,6 +25,7 @@
 - Find a ctrl-w alternate
 - ```kubectl get pod my-pod -o yaml > pod.yaml```
 - ```kubectl explain pods.spec.containers | grep -C 10 envFrom```
+-Recursively explain ```kubectl explain pods.spec.containers --recursive | grep -C 10 envFrom```
 - Understand the explain command very well.
 - Learn how to copy paste from terminal to vim and also from vim to vim and also from documentation to terminal and vim.
 - Know the short forms
@@ -45,12 +46,30 @@
     alias k=kubectl
     complete -F __start_kubectl k
     ```
+### Useful Linux commands
+- grep
+- wc
+- vi
+- 
+
+
+### Viewing all resources
+```k get all -l env=prod```
 
 ### Updating existing resources
-- A lot of pod properties are not editable. In those cases simply edit the yaml file, it will throw error and then save to ```/tmp/random.yaml```. Force delete the pod and recreate the pod using the yaml at ```/tmp```
-- ```k edit pod nginx```
+
+#### Pod
+- A lot of pod properties are not editable. In those cases simply edit the yaml file, it will throw error and then save to ```/tmp/random.yaml```. You can now either force delete the pod and recreate the pod using the yaml at ```/tmp``` 
+ ```k edit pod nginx```
+ ```kubectl delete pods nginx --grace-period=0 --force```
+ This might be simpler``kubectl delete pod unwanted --now```
+- or you can replace using a single line command
+```k replace --force -f /tmp/kubectl-edit-8572845.yaml```
+
+#### Container name
 - ```k set pod/podname current_image:new_image```
 - ```k set deployment/deploymentname current_image:new_image```
+
 
 ### Monitoring
 - ```k logs pod-name -n namespace-name```
@@ -137,3 +156,21 @@ kubectl exec --stdin --tty my-pod -- /bin/sh
 - Linux Foundation Exam Environment Review Video
 - Udemy Course complete.
 - CKAD Simulator : killer.sh
+
+### Copy and Pasting
+- For Windows: Ctrl+Insert to copy and Shift+Insert to paste
+
+### Time Management
+```bash
+ kubectl create deployment nginx --image=nginx   (deployment)
+kubectl run nginx --image=nginx --restart=Never   (pod)
+kubectl run nginx --image=nginx --restart=OnFailure   (job)  
+kubectl run nginx --image=nginx  --restart=OnFailure --schedule="* * * * *" (cronJob)
+
+kubectl run nginx -image=nginx --restart=Never --port=80 --namespace=myname --command --serviceaccount=mysa1 --env=HOSTNAME=local --labels=bu=finance,env=dev  --requests='cpu=100m,memory=256Mi' --limits='cpu=200m,memory=512Mi' --dry-run -o yaml - /bin/sh -c 'echo hello world'
+
+kubectl run frontend --replicas=2 --labels=run=load-balancer-example --image=busybox  --port=8080
+kubectl expose deployment frontend --type=NodePort --name=frontend-service --port=6262 --target-port=8080
+kubectl set serviceaccount deployment frontend myuser
+kubectl create service clusterip my-cs --tcp=5678:8080 --dry-run -o yaml
+```

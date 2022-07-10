@@ -1,0 +1,2 @@
+- Namespaces are a way to divide cluster resources between multiple users (via resource quota).
+- Labels and selector to bulk delete.
